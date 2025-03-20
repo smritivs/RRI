@@ -1,28 +1,55 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
-# Define pulsar parameters
-PULSE_PERIOD = 1.0  # In seconds (example)
-EPOCH = 0.0  # Reference epoch (for now, assuming zero)
-NUM_BINS = 1024  # Number of bins
+# Constants
+NUM_BINS = 1024
 
-# Simulate a synthetic pulsar signal over one period
-time_samples = np.linspace(0, PULSE_PERIOD, 10000)  # 10,000 time samples
-pulse_signal = np.exp(-((time_samples - PULSE_PERIOD / 2) ** 2) / (2 * (PULSE_PERIOD / 10) ** 2))  # Gaussian pulse
+# Global Variables
+probability_distribution = np.zeros(NUM_BINS)
 
-# Assign samples to bins
-bin_edges = np.linspace(0, PULSE_PERIOD, NUM_BINS + 1)
-binned_profile, _ = np.histogram(time_samples, bins=bin_edges, weights=pulse_signal)
+# Pulsar parameters (example values)
+period = 1.0  # in seconds
+epoch = 0.0  # reference time
 
-# Normalize the pulse profile (optional)
-binned_profile /= np.max(binned_profile)
+# Example pulse profile (random values normalized to 1.0)
+pulse_profile = np.random.rand(NUM_BINS)
+pulse_profile /= np.max(pulse_profile)  # Normalize to 1.0
 
-# Plot the binned pulse profile
-plt.figure(figsize=(10, 4))
-plt.plot(binned_profile, label="Pulse Profile (1024 bins)")
-plt.xlabel("Phase Bin")
-plt.ylabel("Normalized Amplitude")
-plt.title("Pulsar Pulse Profile (Binned)")
-plt.legend()
-plt.grid()
-plt.show()
+def initialize():
+    """ Initializes the probability distribution to zero. """
+    global probability_distribution
+    probability_distribution = np.zeros(NUM_BINS)
+
+def process_pulse(time_stamp):
+    """
+    Processes a pulse received at a given time_stamp.
+    Updates the global probability_distribution.
+    """
+    global probability_distribution
+
+    # Compute phase and corresponding bin
+    phase = (time_stamp - epoch) % period
+    phase_bin = int((phase / period) * NUM_BINS)
+
+    # Shift the pulse profile and accumulate into probability distribution
+    shifted_profile = np.roll(pulse_profile, phase_bin)
+    probability_distribution += shifted_profile
+
+    # Find the bin with the peak probability
+    peak_bin = np.argmax(probability_distribution)
+
+    return peak_bin
+
+def run_simulation(num_pulses=100, time_interval=0.1):
+    """
+    Simulates pulse reception at random time intervals.
+    """
+    np.random.seed(42)
+    pulse_times = np.cumsum(np.random.exponential(scale=time_interval, size=num_pulses))
+
+    for t in pulse_times:
+        peak_bin = process_pulse(t)
+        print(f"Pulse at {t:.3f}s -> Peak Bin: {peak_bin}")
+
+# Run the simulation
+initialize()
+run_simulation()
