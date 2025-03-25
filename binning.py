@@ -1,18 +1,15 @@
 import numpy as np
 
-# Constants
 NUM_BINS = 1024
 
-# Global Variables
 probability_distribution = np.zeros(NUM_BINS)
 
-# Pulsar parameters (example values)
 period = 1.0  # in seconds
 epoch = 0.0  # reference time
 
-# Example pulse profile (random values normalized to 1.0)
+# example pulse profile
 pulse_profile = np.random.rand(NUM_BINS)
-pulse_profile /= np.max(pulse_profile)  # Normalize to 1.0
+pulse_profile /= np.max(pulse_profile)  # normalize to 1.0
 
 def initialize():
     """ Initializes the probability distribution to zero. """
@@ -50,6 +47,5 @@ def run_simulation(num_pulses=100, time_interval=0.1):
         peak_bin = process_pulse(t)
         print(f"Pulse at {t:.3f}s -> Peak Bin: {peak_bin}")
 
-# Run the simulation
 initialize()
 run_simulation()
