@@ -17,5 +17,5 @@ module probability_distribution(
         end
     end
 
-    assign distribution_value = distribution[bin_index];  // Read current bin
+    assign distribution_value = distribution[bin_index];  
 endmodule
