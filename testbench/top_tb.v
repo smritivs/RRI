@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module tb_top_module;
+module top_tb;
 
     // Inputs
     reg clk;
@@ -13,7 +13,7 @@ module tb_top_module;
     wire [31:0] profile_out;
 
     // Instantiate the top module
-    top_module uut (
+    top uut (
         .clk(clk),
         .rst(rst),
         .pulse_in(pulse_in),
@@ -24,6 +24,12 @@ module tb_top_module;
 
     // Clock generation
     always #5 clk = ~clk; // 100MHz clock
+
+    // Waveform dump
+    initial begin
+        $dumpfile("dump.vcd");
+        $dumpvars(0, top_tb);  // Dumps all variables in the testbench
+    end
 
     initial begin
         // Initialize inputs

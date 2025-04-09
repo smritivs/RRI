@@ -1,4 +1,4 @@
-module top_module(
+module top(
     input wire clk,
     input wire rst,
     input wire pulse_in,
@@ -16,7 +16,7 @@ module top_module(
         .pulse_detected(pulse_detected)
     );
 
-    time_phase_calculator u_time_phase (
+    time_phase_calculator u_time_phase_calculator (
         .clk(clk),
         .rst(rst),
         .pulse_detected(pulse_detected),
