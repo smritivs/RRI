@@ -29,5 +29,15 @@ module top(
         .address(bin_index),
         .profile_value(profile_out)
     );
+
+    clock_manager u_clock_manager (
+        .clk_in(clk_in),
+        .rst(rst),
+        .period(period),
+        .epoch(epoch),
+        .pulse_detected(pulse_detected),
+        .clk_out(clk_out),
+        .bin_index(bin_index)
+    );
 endmodule
 
