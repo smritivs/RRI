@@ -5,10 +5,11 @@ module profile_memory (
     reg [31:0] profile [0:1023];
 
     initial begin
-        $readmemh("pulse_profile.mem", profile); // Load from external memory file
+        $readmemh("~RRI\pulse_profile.mem", profile); // Load from external memory file
     end
 
     always @(*) begin
         profile_value = profile[address];
     end
 endmodule
+
