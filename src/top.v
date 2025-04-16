@@ -61,8 +61,13 @@ module top(
         .bin_index(bin_index),
         .distribution_value(distribution_value)
     );
+    initial begin
+        $display("Simulation started...");
+    end
 
-    $display("time=%d, phase=%d, bin_index=%d, profile_out=%d", time, phase, bin_index, profile_out);
+    always @(posedge clk) begin
+        $display("time=%d, bin_index=%d, profile_out=%d, peak_index=%d, peak_value=%d", $time, bin_index, profile_out, peak_index, peak_value);
+    end
 
 endmodule
 
