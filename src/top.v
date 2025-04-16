@@ -62,6 +62,8 @@ module top(
         .distribution_value(distribution_value)
     );
 
+    $display("time=%d, phase=%d, bin_index=%d, profile_out=%d", time, phase, bin_index, profile_out);
+
 endmodule
 
 
