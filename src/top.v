@@ -8,6 +8,12 @@ module top(
 );
     wire pulse_detected;
     wire [9:0] bin_index;
+    wire [31:0] distribution_value;
+    wire [31:0] peak_value;
+    wire [9:0] peak_index;
+
+    // Declare the distribution wire and connect it to the probability_distribution
+    wire [31:0] distribution [0:1023];  // Array of 1024 entries
 
     pulse_input u_pulse_input (
         .clk(clk),
@@ -31,7 +37,7 @@ module top(
     );
 
     clock_manager u_clock_manager (
-        .clk_in(clk_in),
+        .clk_in(clk),
         .rst(rst),
         .period(period),
         .epoch(epoch),
@@ -43,9 +49,10 @@ module top(
     peak_finder u_peak_finder (
         .clk(clk),
         .rst(rst),
-        .distribution(distribution),
+        .bin_index(bin_index),
+        .distribution_value(distribution_value),  // Passing value from the memory
         .peak_index(peak_index),
-        .peak_value(peak_value),
+        .peak_value(peak_value)
     );
 
     probability_distribution u_probability_distribution (
@@ -56,4 +63,5 @@ module top(
     );
 
 endmodule
+
 
