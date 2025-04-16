@@ -39,5 +39,21 @@ module top(
         .clk_out(clk_out),
         .bin_index(bin_index)
     );
+
+    peak_finder u_peak_finder (
+        .clk(clk),
+        .rst(rst),
+        .distribution(distribution),
+        .peak_index(peak_index),
+        .peak_value(peak_value),
+    );
+
+    probability_distribution u_probability_distribution (
+        .clk(clk),
+        .rst(rst),
+        .bin_index(bin_index),
+        .distribution_value(distribution_value)
+    );
+
 endmodule
 
